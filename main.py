@@ -1,11 +1,29 @@
 import os
-import datetime
+import sys
+from datetime import datetime
+
 liga = []
 fecha_partido = []
+
+def pausar_pantalla():
+    if sys.platform=="linux" or sys.platform=="darwin":
+        input('...')
+    else:
+        os.system('pause')
+        
+def limpiar_pantalla():
+    if sys.platform=="linux" or sys.platform=="darwin":
+        os.system('clear')
+    else:
+        os.system('cls')
 
 def registrar_equipo():
     print("\n--- REGISTRO DE EQUIPOS ---")
     nombre_nuevo_equipo = input('Ingrese el nombre del equipo: ').capitalize()
+
+    if nombre_nuevo_equipo.isdigit():
+        print("\n¡Error! El nombre del equipo no puede contener números.")
+        return
 
     if not nombre_nuevo_equipo:
         print("\n¡Error! El nombre del equipo no puede estar vacío.")
@@ -23,21 +41,21 @@ def programar_fecha():
 
     print("-- PROGRAMAR FECHA DEL PARTIDO --")
 
+
     liga = [["Equipo Local"], ["Equipo Visitante"]]
     fecha_partido = []
     while True:
         print("\nIngresa los datos de la fecha:")
-        dia_texto = input("Día (DD): ")
-        mes_texto = input("Mes (MM): ")
-        año_texto = input("Año (AAAA): ")
 
         try:
            
-            dia_num = int(dia_texto)
-            mes_num = int(mes_texto)
-            año_num = int(año_texto)
+            dia_num = int(input("dia: "))
+            mes_num = int(input("mes: "))
+            año_num = int(input("año: "))
 
-            datetime.datetime(año_num, mes_num, dia_num)
+            datetime.now(año_num)
+            datetime.now(dia_num)
+            datetime.now(mes_num)            
             break
 
         except ValueError:
@@ -50,6 +68,7 @@ def programar_fecha():
         print(f"El partido {liga[0][0]} vs {liga[1][0]} ")
 
 def registrar_marcador():
+
     print("--- REGISTRAR MARCADOR DEL PARTIDO ---")
 
     if len(liga) < 2:
@@ -119,6 +138,7 @@ def registrar_marcador():
 
 
 def mas_goles_contra():
+    os.system('cls' if os.name == 'nt' else 'clear')
     print("--- EQUIPO CON MÁS GOLES EN CONTRA ---")
 
     if not liga:
@@ -136,6 +156,7 @@ def mas_goles_contra():
     print(f"\nEl equipo que ha recibido más goles en contra es: {equipo_con_mas_goles[0]}")
     print(f"Ha recibido un total de {equipo_con_mas_goles[6]} goles.")
 def mas_goles_favor():
+    os.system('cls' if os.name == 'nt' else 'clear')
     print("\n--- EQUIPO CON MÁS GOLES A FAVOR (MÁS GOLEADOR) ---")
 
     if not liga:
@@ -155,6 +176,7 @@ def mas_goles_favor():
     
 
 def registro_plantel(liga):
+    os.system('cls' if os.name == 'nt' else 'clear')
     print('\n--- REGISTRO DE PLANTEL ---')
 
     if not liga:
@@ -176,14 +198,16 @@ def registro_plantel(liga):
         equipo_seleccionado.append([])
 
     print(f"\n--- Registrando miembro para {equipo_seleccionado[0]} ---")
-    nombre_miembro = input("Ingrese el nombre del jugador/técnico: ").title()
-    cargo_miembro = input("Ingrese el cargo (Ej: DT, Delantero, etc.): ").upper()
+    nombre_miembro = input("Ingrese el nombre del jugador/técnico: ").upper()
+    cargo_miembro = input("Ingrese el cargo o posicion de juego : ").upper()
+    dorsal = input(f'ingrese el dorsal de {nombre_miembro} ').upper
+    edad = int(input('ingrese la edad: '))
 
-    nuevo_miembro = {"nombre": nombre_miembro, "cargo": cargo_miembro}
+    nuevo_miembro = {"nombre": {nombre_miembro}, "cargo": {cargo_miembro}, 'dorsal':{dorsal}, 'edad': {edad}}
 
     equipo_seleccionado[8].append(nuevo_miembro)
     
-    print(f"\n¡Éxito! Se ha añadido a {nombre_miembro} ({cargo_miembro}) al plantel.")
+    print(f"\n¡Éxito! Se ha añadido a {nombre_miembro} ({cargo_miembro}) ({dorsal}) ({edad})al plantel.")
     print(f"\nPlantel actual de {equipo_seleccionado[0]}:")
     for miembro in equipo_seleccionado[8]:
         print(f'- {miembro["nombre"]} ({miembro["cargo"]})')
@@ -204,43 +228,43 @@ MENU PRINCIPAL
 """
 
 def main():
-    os.system("clear")
+    limpiar_pantalla()
     while True:
         print(MAIN_MENU)
         opc = input(" = ")
         match opc:
             case "1":
-                os.system("clear")
+                limpiar_pantalla()
                 registrar_equipo()
-                x = input("Presione una tecla para continuar... ")
+                pausar_pantalla()
             case "2":
-                os.system("clear")
+                limpiar_pantalla()
                 programar_fecha()
-                x = input("Presione una tecla para continuar... ")
+                pausar_pantalla()
             case "3":
-                os.system("clear")
+                limpiar_pantalla()
                 registrar_marcador()
-                x = input("Presione una tecla para continuar... ")
+                pausar_pantalla()
             case "4":
-                os.system("clear")
+                limpiar_pantalla()
                 mas_goles_contra()
-                x = input("Presione una tecla para continuar... ")
+                pausar_pantalla()
             case "5":
-                os.system("clear")
+                limpiar_pantalla()
                 mas_goles_favor()
-                x = input("Presione una tecla para continuar... ")
+                pausar_pantalla()
             case "6":
-                os.system("clear")
+                limpiar_pantalla()
                 registro_plantel(liga)
-                x = input("Presione una tecla para continuar... ")
+                pausar_pantalla()
             case "7":
                 print(liga)
-                x = input("Presione una tecla para continuar... ")
+                pausar_pantalla()
             case "8":
                 break
             case _:
                 print("ERROR...")
-                x = input("Presione una tecla para continuar... ")
+                pausar_pantalla()
 
 if __name__ == "__main__":
     main()
